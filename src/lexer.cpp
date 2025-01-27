@@ -1,29 +1,50 @@
-#include <iostream>
-#include <string>
-#include <vector>
-
 #include "lexer.h"
 
-std::vector<std::string> split(std::string sourceCode) {
-    std::vector<std::string> lines;
-    std::string line;
+Lexer::Lexer(const std::string& input_text): input_text(input_text), pos(0), currentChar(sourceCode[0]) {}
 
-    int len = sourceCode.length();
+void Lexer::advance() {
+    pos++;
+    currentChar = (pos < input_text.size()) ? input_text[pos] : '\0';
+}
 
-    for (int i = len; i >= 0; i--) {
-        if (sourceCode[i] == ' ') {
-            lines.push_back(line);
-            line = "";
+Token Lexer::number() {
+    std::string result;
+    while(currentChar != '\0' && std::isdigit(currentChar)) {
+        result += currentChar;
+        advance();
+    }
+    return {TokenType::NUMBER, result};
+}
+
+std::vector<Token> Lexer::tokenize() {
+    std::vector<Token> tokens;
+     while (currentChar != '\0') {
+        if (std::isspace(currentChar)) {
+            advance();
+        } else if (std::isdigit(currentChar)) {
+            tokens.push_back(number());
+        } else if (currentChar == '+') {
+            tokens.push_back({TokenType::PLUS, "+"});
+            advance();
+        } else if (currentChar == '-') {
+            tokens.push_back({TokenType::MINUS, "-"});
+            advance();
+        } else if (currentChar == '*') {
+            tokens.push_back({TokenType::MULTIPLY, "*"});
+            advance();
+        } else if (currentChar == '/') {
+            tokens.push_back({TokenType::DIVIDE, "/"});
+            advance();
+        } else if (currentChar == '(') {
+            tokens.push_back({TokenType::LPAREN, "("});
+            advance();
+        } else if (currentChar == ')') {
+            tokens.push_back({TokenType::RPAREN, ")"});
+            advance();
         } else {
-            line += sourceCode[i];
+            throw std::runtime_error("Invalid character");
         }
     }
-    return lines;
-};
-
-std::vector<Token> totoken(std::string sourceCode) {
-    std::vector<Token> tokens;
-    std::vector<std::string> lines = split(sourceCode);
-
+    tokens.push_back({TokenType::END,""});
     return tokens;
-};
+}

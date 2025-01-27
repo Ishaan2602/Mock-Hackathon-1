@@ -1,36 +1,41 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 #include <iostream>
 #include <string>
 #include <vector>
 
 enum class TokenType {
-    IDENTIFIER, 
-    NUMBER,   
-    STRING,
-    NEWLINE,
-    INDENT,
-    DEDENT,
-    OPERATOR,
-    KEYWORD,
+    NUMBER,
+    PLUS,
+    MINUS,
+    MULTIPLY,
+    DIVIDE,
+    //EQUALS,
+    //NOTEQUALS,
     LPAREN,
     RPAREN,
-    LBRACE,
-    RBRACE,
-    COLON,
-    COMMA,
-    EOF_TOKEN
+    END
 };
 
 struct Token {
-    std::string lexeme;
     TokenType type;
     int line;
+    std::string value;
 };
 
 class Lexer {
     public:
-        Lexer(std::string sourceCode);
-    
-        std::string sourceCode;
-        std::vector<std::string> split();
-        std::vector<Token> totoken(std::string sourceCode);
+        explicit Lexer(const std::string& input_text);
+        std::vector<Token> tokenize(); //main function
+
+    private:
+        std::string input_text;
+        int pos;
+        char currentChar;
+        
+        void advance(); //updates pos and currentChar
+        Token number(); //helper func to recognize numbers
 };
+
+#endif
