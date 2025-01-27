@@ -20,7 +20,6 @@ enum class TokenType {
 
 struct Token {
     TokenType type;
-    int line;
     std::string value;
 };
 
@@ -39,4 +38,3 @@ class Lexer {
 };
 
 #endif
-N
