@@ -1,3 +1,7 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
 enum class TokenType {
     IDENTIFIER,   
     NUMBER,       
@@ -14,4 +18,9 @@ enum class TokenType {
     COLON,
     COMMA,
     EOF_TOKEN
+};
+
+struct Token {
+    std::string value;
+    TokenType type;
 };
