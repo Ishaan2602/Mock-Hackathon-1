@@ -1,26 +1,19 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <lexer.h>
 
-enum class TokenType {
-    IDENTIFIER,   
-    NUMBER,       
-    STRING,
-    NEWLINE,
-    INDENT,
-    DEDENT,
-    OPERATOR,
-    KEYWORD,
-    LPAREN,
-    RPAREN,
-    LBRACE,
-    RBRACE,
-    COLON,
-    COMMA,
-    EOF_TOKEN
+std::vector<std::string> split(std::string sourceCode) {
+    std::vector<std::string> lines;
+    std::string line;
+
+    return lines;
 };
 
-struct Token {
-    std::string value;
-    TokenType type;
+std::vector<Token> totoken(std::string sourceCode) {
+    std::vector<Token> tokens;
+
+    
+
+    return tokens;
 };
