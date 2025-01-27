@@ -1,3 +1,0 @@
-/Users/anirudh/UIUC/hackillinois-2025/mock-hackathon-1/cmake-build-debug/CMakeFiles/mock_hackathon_1.dir
-/Users/anirudh/UIUC/hackillinois-2025/mock-hackathon-1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/anirudh/UIUC/hackillinois-2025/mock-hackathon-1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
