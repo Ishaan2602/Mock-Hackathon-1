@@ -11,18 +11,18 @@ int Interpreter::evaluate() {
 // Recursively visit nodes in the AST and compute their values.
 int Interpreter::visit(AST *node) {
     // If the node is a number, just return its value.
-    if (node->token.type == NUMBER) {
+    if (node->token.type == TokenType::NUMBER) {
         return std::stoi(node->token.value); // Convert the string value to an integer.
     }
 
     // If the node is an operator, evaluate its children.
-    if (node->token.type == PLUS) {
+    if (node->token.type == TokenType::PLUS) {
         return visit(node->left) + visit(node->right); // Add left and right.
-    } else if (node->token.type == MINUS) {
+    } else if (node->token.type == TokenType::MINUS) {
         return visit(node->left) - visit(node->right); // Subtract right from left.
-    } else if (node->token.type == MULTIPLY) {
+    } else if (node->token.type == TokenType::MULTIPLY) {
         return visit(node->left) * visit(node->right); // Multiply left and right.
-    } else if (node->token.type == DIVIDE) {
+    } else if (node->token.type == TokenType::DIVIDE) {
         int rightValue = visit(node->right);
         if (rightValue == 0) {
             throw std::runtime_error("Division by zero is not allowed.");

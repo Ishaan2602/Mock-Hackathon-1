@@ -9,7 +9,7 @@ struct AST {
     AST *left;  
     AST *right;
 
-    AST(Token token, AST *left = nullptr, AST *right = nullptr)
+    explicit AST(Token token, AST *left = nullptr, AST *right = nullptr)
         : token(token), left(left), right(right) {}
 };
 

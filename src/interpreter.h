@@ -9,8 +9,8 @@ public:
     int evaluate();
 
 private:
-    //AST *root;
-    //int visit(AST *node);
+    AST *root;
+    int visit(AST *node);
 };
 
 #endif

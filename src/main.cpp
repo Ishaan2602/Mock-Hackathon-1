@@ -1,3 +1,6 @@
+#include "interpreter.h"
+#include "lexer.h"
+
 #include <iostream>
 #include <string>
 
@@ -17,6 +20,18 @@ int main()
 
         if (input == "exit") {
             break;
+        }
+
+        try {
+            Lexer lexer(input);
+            std::vector<Token> tokens = lexer.tokenize();
+            Parser parser(tokens);
+            AST *root = parser.parse();
+            Interpreter interpreter(root);
+            int result = interpreter.evaluate();
+            std::cout << result << '\n';
+        } catch (const std::exception &e) {
+            std::cerr << "Error: " << e.what() << '\n';
         }
     }
     

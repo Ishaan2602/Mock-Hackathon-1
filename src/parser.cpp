@@ -1,7 +1,7 @@
 #include "parser.h"
 
 Token Parser::currentToken() {
-    return (pos < tokens.size()) ? tokens[pos] : Token{TokenType::, ""};
+    return (pos < tokens.size()) ? tokens[pos] : Token{TokenType::END, ""};
 }
 
 void Parser::eat(TokenType type) {
