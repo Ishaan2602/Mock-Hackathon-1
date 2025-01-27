@@ -1,18 +1,67 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <stdexcept>
-
 #include "parser.h"
 
-std::shared_ptr<Expr> Parser::parse() {
-    return expression();
+Token Parser::currentToken() {
+    return (pos < tokens.size()) ? tokens[pos] : Token{TokenType::, ""};
 }
 
-std::shared_ptr<Expr> Parser::expression() {
-    return equality();
+void Parser::eat(TokenType type) {
+    if (currentToken().type == type) {
+        pos++; // Move to the next token
+    } else {
+        throw std::runtime_error("Unexpected token: " + currentToken().value);
+    }
 }
 
+AST *Parser::factor() { //for partenthesis
+    Token token = currentToken();
+    if (token.type == TokenType::NUMBER) {
+        eat(TokenType::NUMBER); // Consume the number token
+        return new AST(token); // Return a leaf node for the number
+    } else if (token.type == TokenType::LPAREN) {
+        eat(TokenType::LPAREN);           // Consume '('
+        AST *node = expression(); // Parse the inner expression
+        eat(TokenType::RPAREN);           // Consume ')'
+        return node;           // Return the parsed subtree
+    }
+    throw std::runtime_error("Invalid factor");
+}
+
+AST *Parser::term() { //for multiplication and division
+    AST *node = factor(); // Start with a factor
+
+    // While the current token is '*' or '/'
+    while (currentToken().type == TokenType::MULTIPLY || currentToken().type == TokenType::DIVIDE) {
+        Token token = currentToken();
+        if (token.type == TokenType::MULTIPLY) {
+            eat(TokenType::MULTIPLY);
+        } else if (token.type == TokenType::DIVIDE) {
+            eat(TokenType::DIVIDE);
+        }
+        node = new AST(token, node, factor()); //Create  binary operator node
+    }
+    return node;
+}
+
+AST *Parser::expression() {
+    AST *node = term();
+
+    while (currentToken().type == TokenType::PLUS || currentToken().type == TokenType::MINUS) {
+        Token token = currentToken();
+        if (token.type == TokenType::PLUS) {
+            eat(TokenType::PLUS);
+        } else if (token.type == TokenType::MINUS) {
+            eat(TokenType::MINUS);
+        }
+        node = new AST(token, node, term()); //Create binary operator node
+    }
+    return node;
+}
+
+AST *Parser::parse() {
+    return expression(); //Start parsing from expression
+}
+
+/*
 std::shared_ptr<Expr> Parser::equality() {
     auto expr = comparison();
     
@@ -94,7 +143,7 @@ Token Parser::advance() {
 }
 
 bool Parser::isAtEnd() const {
-    return peek().type == TokenType::EOF_TOKEN;
+    return peek().type == TokenType::END;
 }
 
 Token Parser::peek() const {
@@ -104,3 +153,4 @@ Token Parser::peek() const {
 Token Parser::previous() const {
     return tokens[current - 1];
 }
+*/
