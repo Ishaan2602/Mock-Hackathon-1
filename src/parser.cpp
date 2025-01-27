@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <stdexcept>
+#include <parser.h>
 
 // Token Structure
 struct Token {
@@ -139,12 +140,3 @@ private:
         return tokens[current - 1];
     }
 };
-
-int main() {
-    // Example usage
-    std::vector<Token> tokens = {
-        {TokenType::NUMBER, "5", 1},
-        {TokenType::OPERATOR, "+", 1},
-        {TokenType::NUMBER, "10", 1},
-        {TokenType
- 
