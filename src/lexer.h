@@ -24,3 +24,13 @@ struct Token {
     std::string value;
     TokenType type;
 };
+
+class lexer {
+    public:
+        lexer(const std::string sourceCode);
+
+
+        std::string sourceCode;
+        std::vector<std::string> split();
+        std::vector<Token> totoken();
+};
