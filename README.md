@@ -1,1 +1,1 @@
-# Mock-Hackathon-1-interpreter-
+Hackathon notes
