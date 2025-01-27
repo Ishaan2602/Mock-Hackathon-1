@@ -3,8 +3,8 @@
 #include <vector>
 
 enum class TokenType {
-    IDENTIFIER,   
-    NUMBER,       
+    IDENTIFIER, 
+    NUMBER,   
     STRING,
     NEWLINE,
     INDENT,
@@ -21,16 +21,15 @@ enum class TokenType {
 };
 
 struct Token {
-    std::string value;
+    std::string lexeme;
     TokenType type;
 };
 
-class lexer {
+class Lexer {
     public:
-        lexer(const std::string sourceCode);
-
-
+        Lexer(std::string sourceCode);
+    
         std::string sourceCode;
         std::vector<std::string> split();
-        std::vector<Token> totoken();
+        std::vector<Token> totoken(std::string sourceCode);
 };
