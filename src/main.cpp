@@ -1,9 +1,5 @@
 #include <iostream>
-#include <sstream>
 #include <string>
-#include "lexer.h"
-#include "parser.h"
-#include "interpreter.h"
 
 void signalHandler(int signum) {
     exit(signum);
