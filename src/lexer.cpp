@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-Lexer::Lexer(const std::string& input_text): input_text(input_text), pos(0), currentChar(sourceCode[0]) {}
+Lexer::Lexer(const std::string& input_text): input_text(input_text), pos(0), currentChar(input_text[0]) {}
 
 void Lexer::advance() {
     pos++;
