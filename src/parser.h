@@ -1,39 +1,5 @@
-#ifndef PARSER_H
-#define PARSER_H
+#include "lexer.h"
 
-#include <vector>
-#include <string>
-#include <memory>
-
-// Token types
-enum class TokenType {
-    IDENTIFIER,
-    NUMBER,
-    STRING,
-    NEWLINE,
-    INDENT,
-    DEDENT,
-    OPERATOR,
-    KEYWORD,
-    LPAREN,
-    RPAREN,
-    LBRACE,
-    RBRACE,
-    COLON,
-    COMMA,
-    EOF_TOKEN
-};
-
-// Token structure
-struct Token {
-    TokenType type;
-    std::string lexeme;
-    int line;
-
-    Token(TokenType type, const std::string& lexeme, int line);
-};
-
-// Abstract Syntax Tree (AST) nodes
 struct Expr {
     virtual ~Expr() = default;
 };
@@ -41,7 +7,7 @@ struct Expr {
 struct LiteralExpr : public Expr {
     std::string value;
 
-    explicit LiteralExpr(const std::string& value);
+    explicit LiteralExpr(const std::string& value) : value(value) {}
 };
 
 struct BinaryExpr : public Expr {
@@ -49,14 +15,20 @@ struct BinaryExpr : public Expr {
     std::string op;
     std::shared_ptr<Expr> right;
 
-    BinaryExpr(std::shared_ptr<Expr> left, const std::string& op, std::shared_ptr<Expr> right);
+    BinaryExpr(std::shared_ptr<Expr> left, const std::string& op, std::shared_ptr<Expr> right)
+        : left(std::move(left)), op(op), right(std::move(right)) {}
 };
 
-// Parser class
 class Parser {
 private:
     const std::vector<Token>& tokens;
     size_t current = 0;
+
+    bool match(const std::vector<TokenType>& types);
+    bool check(TokenType type) const;
+    bool isAtEnd() const;
+    Token peek() const;
+    Token previous() const;
 
     std::shared_ptr<Expr> expression();
     std::shared_ptr<Expr> equality();
@@ -65,16 +37,9 @@ private:
     std::shared_ptr<Expr> factor();
     std::shared_ptr<Expr> primary();
 
-    bool match(const std::vector<TokenType>& types);
-    bool check(TokenType type) const;
     Token advance();
-    bool isAtEnd() const;
-    Token peek() const;
-    Token previous() const;
 
 public:
-    explicit Parser(const std::vector<Token>& tokens);
+    explicit Parser(const std::vector<Token>& tokens) : tokens(tokens) {}
     std::shared_ptr<Expr> parse();
 };
-
-#endif // PARSER_H
