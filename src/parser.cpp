@@ -73,8 +73,6 @@ std::shared_ptr<Expr> Parser::primary() {
     throw std::runtime_error("Expected expression at line " + std::to_string(peek().line));
 }
 
-// Utility Methods
-
 bool Parser::match(const std::vector<TokenType>& types) {
     for (const auto& type : types) {
         if (check(type)) {
